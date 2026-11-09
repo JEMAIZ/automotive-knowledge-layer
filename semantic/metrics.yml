@@ -1,0 +1,39 @@
+# Couche sémantique : indicateurs et dimensions définis UNE fois, consommés par la CLI,
+# l'agent et (en production) les outils BI. Équivalent minimal de LookML / dbt Semantic Layer.
+#
+# Règle de grain : toutes les mesures sont calculées au grain CAMPAGNE. Le moteur
+# construit d'abord l'ensemble distinct (campagne x valeurs de dimensions) puis agrège :
+# une campagne n'est jamais comptée deux fois pour une même valeur de dimension.
+# Conséquence assumée : les totaux par domaine ou par marque ne s'additionnent pas
+# (une campagne peut toucher plusieurs composants ou plusieurs marques).
+
+metrics:
+  nb_campagnes:
+    label: Nombre de campagnes de rappel
+    sql: count(DISTINCT campaign_id)
+  vehicules_concernes:
+    label: Véhicules potentiellement concernés
+    sql: sum(potentially_affected)
+    note: Estimation déclarée par le constructeur à l'ouverture de la campagne.
+  nb_campagnes_ne_pas_conduire:
+    label: Campagnes avec consigne « ne pas conduire »
+    sql: count(DISTINCT CASE WHEN do_not_drive THEN campaign_id END)
+
+dimensions:
+  annee:
+    label: Année de déclaration
+    sql: year(c.report_received_date)
+  constructeur:
+    label: Constructeur (déclarant)
+    sql: c.manufacturer
+  type_rappel:
+    label: Type de rappel
+    sql: c.recall_type
+  marque:
+    label: Marque du véhicule
+    sql: v.make
+    join: vehicle
+  domaine_composant:
+    label: Domaine de composant (référentiel métier)
+    sql: d.domain
+    join: component

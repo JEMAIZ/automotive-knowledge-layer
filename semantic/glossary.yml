@@ -1,0 +1,275 @@
+# Référentiel métier des composants : le même glossaire sert la couche sémantique
+# (dimension domaine_composant) ET la base de connaissances (filtrage + traduction des
+# questions FR vers le vocabulaire EN du corpus NHTSA).
+# nhtsa_roots : valeurs de component_root (avant le premier ":" de COMPNAME).
+domains:
+  freinage:
+    label: Freinage
+    nhtsa_roots:
+    - SERVICE BRAKES
+    - SERVICE BRAKES, HYDRAULIC
+    - SERVICE BRAKES, AIR
+    - SERVICE BRAKES, ELECTRIC
+    - PARKING BRAKE
+    - SERVICE BRAKES, HYDRAULIC; AUTOHOLD BRAKE SYSTEM/BRAKE HOLD
+    synonyms_fr:
+    - frein
+    - freins
+    - freinage
+    - plaquette
+    - plaquettes
+    - abs
+    - frein de stationnement
+    terms_en:
+    - brake
+    - brakes
+    - braking
+    - abs
+    - pedal
+    - caliper
+    - parking brake
+    translations:
+      perte de freinage:
+      - loss of braking
+      - reduced braking
+      - brake failure
+      - increased stopping distance
+      frein de stationnement:
+      - parking brake
+      - roll away
+      abs:
+      - abs
+      - anti-lock
+  airbags:
+    label: Airbags et retenue
+    nhtsa_roots:
+    - AIR BAGS
+    - SEAT BELTS
+    - CHILD SEAT
+    synonyms_fr:
+    - airbag
+    - airbags
+    - coussin gonflable
+    - ceinture
+    - ceintures
+    - siège enfant
+    terms_en:
+    - air bag
+    - airbag
+    - inflator
+    - seat belt
+    - restraint
+    - child seat
+    translations:
+      déclenchent:
+      - inadvertent deployment
+      - unexpected deployment
+      intempestive:
+      - inadvertent deployment
+      - unexpected deployment
+      ceinture:
+      - seat belt
+      - buckle
+      - retractor
+  direction:
+    label: Direction et suspension
+    nhtsa_roots:
+    - STEERING
+    - SUSPENSION
+    - WHEELS
+    synonyms_fr:
+    - direction
+    - volant
+    - suspension
+    - roue
+    - roues
+    terms_en:
+    - steering
+    - suspension
+    - wheel
+    - tie rod
+    - control arm
+    translations:
+      direction assistée:
+      - power steering
+      - steering assist
+  moteur:
+    label: Moteur et transmission
+    nhtsa_roots:
+    - ENGINE
+    - ENGINE AND ENGINE COOLING
+    - POWER TRAIN
+    - FUEL SYSTEM, GASOLINE
+    - FUEL SYSTEM, DIESEL
+    - FUEL SYSTEM, OTHER
+    - VEHICLE SPEED CONTROL
+    - FUEL/PROPULSION SYSTEM
+    synonyms_fr:
+    - moteur
+    - transmission
+    - boîte de vitesses
+    - carburant
+    - essence
+    - diesel
+    - injection
+    terms_en:
+    - engine
+    - transmission
+    - powertrain
+    - fuel
+    - leak
+    - stall
+    translations:
+      fuite:
+      - leak
+      carburant:
+      - fuel
+      calage:
+      - stall
+      - loss of drive power
+  electrique:
+    label: Électrique et électronique
+    nhtsa_roots:
+    - ELECTRICAL SYSTEM
+    - HYBRID PROPULSION SYSTEM
+    - ELECTRONIC STABILITY CONTROL
+    - ELECTRONIC STABILITY CONTROL (ESC)
+    - FORWARD COLLISION AVOIDANCE
+    - LANE DEPARTURE
+    - BACK OVER PREVENTION
+    - TRACTION CONTROL SYSTEM
+    - COMMUNICATION
+    synonyms_fr:
+    - électrique
+    - électronique
+    - batterie
+    - câblage
+    - logiciel
+    - caméra de recul
+    - hybride
+    - aide à la conduite
+    - antipatinage
+    - appel d'urgence
+    terms_en:
+    - electrical
+    - battery
+    - wiring
+    - software
+    - camera
+    - rearview
+    - hybrid
+    - short circuit
+    - traction control
+    - emergency call
+    translations:
+      caméra de recul:
+      - rearview camera
+      - rear camera
+      - rearview image
+      - backup camera
+      batterie:
+      - battery
+      câblage:
+      - wiring
+      - harness
+      - short circuit
+      incendie:
+      - fire
+      - short circuit
+      - wiring
+  visibilite:
+    label: Éclairage et visibilité
+    nhtsa_roots:
+    - EXTERIOR LIGHTING
+    - VISIBILITY
+    - VISIBILITY/WIPER
+    - INTERIOR LIGHTING
+    synonyms_fr:
+    - phare
+    - phares
+    - éclairage
+    - feux
+    - essuie-glace
+    - visibilité
+    - rétroviseur
+    terms_en:
+    - headlight
+    - lamp
+    - lighting
+    - wiper
+    - mirror
+    - visibility
+    translations:
+      phare:
+      - headlight
+      - headlamp
+      - low beam
+      - high beam
+      phares:
+      - headlight
+      - headlamp
+      - low beam
+      - high beam
+      essuie-glace:
+      - wiper
+  structure:
+    label: Structure et habitacle
+    nhtsa_roots:
+    - STRUCTURE
+    - LATCHES/LOCKS/LINKAGES
+    - SEATS
+    - TIRES
+    synonyms_fr:
+    - structure
+    - carrosserie
+    - porte
+    - serrure
+    - siège
+    - sièges
+    - pneu
+    - pneus
+    terms_en:
+    - structure
+    - door
+    - latch
+    - seat
+    - tire
+    - tyre
+    translations:
+      porte:
+      - door
+      - latch
+      serrure:
+      - latch
+      - lock
+      en roulant:
+      - open while driving
+  equipements:
+    label: Équipements et accessoires
+    nhtsa_roots:
+    - EQUIPMENT
+    - EQUIPMENT ADAPTIVE/MOBILITY
+    - TRAILER HITCHES
+    synonyms_fr:
+    - équipement
+    - accessoire
+    - attelage
+    - remorque
+    - fauteuil roulant
+    - rampe
+    - élévateur
+    terms_en:
+    - equipment
+    - hitch
+    - trailer
+    - wheelchair
+    - lift
+    - ramp
+    - mobility
+  autre:
+    label: Autre ou non précisé
+    nhtsa_roots:
+    - OTHER
+    - UNKNOWN OR OTHER
+    synonyms_fr: []
+    terms_en: []
