@@ -17,7 +17,7 @@ def _built_db(tmp_path):
 
 def test_staging_applies_and_keeps_every_row(tmp_path):
     con, applied = _built_db(tmp_path)
-    assert applied == ["01_stg_recalls.sql"]
+    assert applied == ["01_stg_recalls.sql", "02_marts.sql"]
     raw = con.execute("SELECT count(*) FROM raw.recalls WHERE campno IS NOT NULL").fetchone()[0]
     stg = con.execute("SELECT count(*) FROM staging.stg_recalls").fetchone()[0]
     con.close()
@@ -36,3 +36,12 @@ def test_staging_normalises_text_and_types(tmp_path):
     assert root == "SERVICE BRAKES, HYDRAULIC"
     assert path == "SERVICE BRAKES, HYDRAULIC:FOUNDATION COMPONENTS"
     assert dnd is False
+
+
+def test_staging_keeps_do_not_drive_yes(tmp_path):
+    con, _ = _built_db(tmp_path)
+    flag = con.execute(
+        "SELECT do_not_drive FROM staging.stg_recalls WHERE campaign_id = 'TEST22V002' LIMIT 1"
+    ).fetchone()[0]
+    con.close()
+    assert flag is True
