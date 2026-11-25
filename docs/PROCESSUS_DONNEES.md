@@ -215,6 +215,35 @@ Résultat : 29 colonnes pour 248 586 lignes, aucune autre valeur.
 
 ---
 
+## 12. Transformation et contrôle des comptes
+
+**Commande** (dans le dépôt `akl-rebuild`, environnement activé) :
+
+```powershell
+python -c "from akl.transform import run; print(run())"
+python -c "import duckdb; con=duckdb.connect('data/akl.duckdb'); print(con.execute('SELECT count(*), count(DISTINCT campaign_id) FROM marts.fct_campaign').fetchall()); print(con.execute('SELECT count(*) FROM staging.stg_recalls').fetchall()); print(con.execute('SELECT count(*) FROM raw.recalls WHERE campno IS NULL').fetchall())"
+```
+
+**Résultats** :
+
+```
+['01_stg_recalls.sql', '02_marts.sql']
+[(15424, 15424)]
+[(248586,)]
+[(0,)]
+```
+
+**Lecture** :
+
+- Chaque campagne n'apparaît qu'une fois dans `marts.fct_campaign` : le grain campagne est respecté sur le fichier réel.
+- Le staging conserve les 248 586 lignes du fichier, sans perte.
+- Aucune ligne n'est exclue faute de numéro de campagne.
+- En moyenne, une campagne correspond à environ 16 lignes du fichier (véhicules et composants confondus). Ce rapport n'a pas encore été comparé à une source externe.
+
+**Statut** : Vérifié sur le fichier réel. La cohérence interne est établie ; la justesse des valeurs métier reste à confronter au site de la NHTSA.
+
+---
+
 ## 10. Journal synthétique
 
 | # | Date | Action | Résultat | Statut |
@@ -227,3 +256,5 @@ Résultat : 29 colonnes pour 248 586 lignes, aucune autre valeur.
 | 5 | 25/11/2026 | Contrôle `count` et `distinct` | 248 586 / 248 586 | Vérifié |
 | 6 | 25/11/2026 | Comparaison de `COLUMNS` avec `RCL.txt` | 29 champs, noms et ordre identiques | Vérifié |
 | 7 | 25/11/2026 | Comptage des colonnes par ligne du fichier réel | 29 colonnes pour les 248 586 lignes | Vérifié |
+| 8 | 25/11/2026 | Staging et marts sur le fichier réel (`transform.run`) | `01_stg_recalls.sql` et `02_marts.sql` appliqués | Vérifié |
+| 9 | 25/11/2026 | Contrôle des comptes après transformation | 15 424 campagnes, 15 424 identifiants distincts ; 248 586 lignes en staging ; 0 ligne sans numéro de campagne | Vérifié |
