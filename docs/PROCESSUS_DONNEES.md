@@ -185,13 +185,33 @@ python -c "import duckdb; con=duckdb.connect('data/akl.duckdb'); print(con.execu
 
 ## 9. Points ouverts
 
-1. **Schéma** : comparer `COLUMNS` avec `RCL.txt`. Ordre et noms non vérifiés.
+1. **Schéma** : vérifié contre `RCL.txt` (voir section 11). Le champ 21 est écrit `CONEQUENCE_DEFECT` dans la source ; le code garde `consequence_defect`.
 2. **Encodage** : cp1252 supposé, avec `errors="replace"`. Des caractères peuvent être remplacés sans alerte. Il faut compter les remplacements.
 3. **Lignes vides** : le compte de 248 586 inclut les lignes vides. Vérifier leur nombre.
 4. **Ancien fichier** : confirmer le renommage ou la suppression de `FLAT_RCL_POST_2010.ancien.txt`.
 5. **Commande de téléchargement** : confirmer la forme exacte utilisée.
 6. **Documentation officielle** : relire les conditions d'utilisation des données de la NHTSA.
 7. **Commit** : noter le hash du commit qui contient ce module dans le nouveau dépôt.
+
+---
+
+## 11. Vérification du schéma
+
+**Source** : `RCL.txt`, téléchargé depuis https://static.nhtsa.gov/odi/ffdd/rcl/RCL.txt, dernière mise à jour indiquée par la NHTSA : mai 2025.
+
+**Comparaison** : les 29 champs décrits dans `RCL.txt` (de `RECORD_ID` à `PARK_OUTSIDE`) sont dans le même ordre que `COLUMNS` dans `akl/ingest.py`. Les noms correspondent, à la casse près.
+
+**Comptage des colonnes par ligne** (commande exécutée sur le fichier réel) :
+
+```powershell
+Get-Content "C:\...\data\FLAT_RCL_POST_2010.txt" | ForEach-Object { ($_ -split "`t").Count } | Group-Object | Sort-Object Name | Format-Table Name, Count
+```
+
+Résultat : 29 colonnes pour 248 586 lignes, aucune autre valeur.
+
+**Conclusion** : le schéma du fichier réel correspond à la documentation de mai 2025. Les champs 28 et 29 sont présents sur toutes les lignes.
+
+**Points non couverts** : l'encodage cp1252 n'est pas indiqué par `RCL.txt` ; il reste supposé. La documentation mentionne une longueur maximale d'enregistrement de 17 108 caractères, non testée ici.
 
 ---
 
@@ -205,4 +225,5 @@ python -c "import duckdb; con=duckdb.connect('data/akl.duckdb'); print(con.execu
 | 3 | 24/11/2026 14:10 | Premier module et tests | 4 tests réussis (échantillon) | Vérifié |
 | 4 | 24/11/2026 | Chargement du fichier réel | 248 586 lignes chargées | Vérifié |
 | 5 | 25/11/2026 | Contrôle `count` et `distinct` | 248 586 / 248 586 | Vérifié |
-| 6 | à faire | Comparaison avec `RCL.txt` | — | Non vérifié |
+| 6 | 25/11/2026 | Comparaison de `COLUMNS` avec `RCL.txt` | 29 champs, noms et ordre identiques | Vérifié |
+| 7 | 25/11/2026 | Comptage des colonnes par ligne du fichier réel | 29 colonnes pour les 248 586 lignes | Vérifié |
